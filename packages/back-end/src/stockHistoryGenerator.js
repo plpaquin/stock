@@ -9,11 +9,14 @@ module.exports = {
     const history = [];
 
     for (let i = 0; i < length; i++) {
+      const recommendation = recommendationAlgorithm(); 
+
       const entry = {
-        date: DateTime.now().minus({ days: i }).toLocaleString(DateTime.DATE_FULL),
+        date: DateTime.now().minus({ days: length - 1 - i }),
         price: stockPriceGenerator(),
         socialMediaCount: socialMediaCountGenerator(),
-        recommendation: recommendationAlgorithm()
+        recommendation: recommendation,
+        change: history.length > 0 && history[i - 1].recommendation !== recommendation
       };
 
       history.push(entry);

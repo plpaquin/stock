@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import styled from 'styled-components';
 
 import { useStock } from '../../contexts/stock/stockContext';
@@ -45,7 +46,7 @@ export const Table = () => {
   const { stock } = useStock();
 
   return (
-    <Article>
+    <Article data-testid="data-table-article">
       {stock && (
         <>
           <Heading>{stock.symbol}</Heading>
@@ -62,12 +63,12 @@ export const Table = () => {
             <tbody>
               {stock && stock.history.map((entry, index) => (
                 <tr key={index}>
-                  <th scope="row">{entry.date}</th>
+                  <th scope="row">{DateTime.fromISO(entry.date).toLocaleString(DateTime.DATE_FULL)}</th>
                   <td>{new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(entry.price)}</td>
                   <td>{entry.socialMediaCount}</td>
                   <td>{entry.recommendation}</td>
                 </tr>
-              ))}
+              )).reverse()}
             </tbody>
           </StyledTable>
         </>
